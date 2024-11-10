@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const L1 = require("../model.js");
-const Timetable = require("../model.js");
+const { L1 } = require("../model.js");
+const { Timetable } = require("../model.js");
 
 // Fetch all L1 and L2 employees
 router.get("/get-employees", async (req, res) => {
@@ -9,7 +9,7 @@ router.get("/get-employees", async (req, res) => {
     res.status(200).send(l1Emp);
   } catch (error) {
     console.error("Error fetching employees:", error);
-    res.status(500).send("An error occurred while fetching employees.");
+    res.status(500).send(error);
   }
 });
 // Add a new employee

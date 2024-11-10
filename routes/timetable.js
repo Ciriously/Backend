@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Timetable = require("../model.js");
+const { Timetable } = require("../model.js");
 
 router.post("/generate-timetable", async (req, res) => {
   try {
@@ -41,17 +41,12 @@ router.post("/generate-timetable", async (req, res) => {
   }
 });
 router.get("/get-timetable", async (req, res) => {
+  const month = req.query.month;
   try {
-    const timetables = await Timetable.find();
-    const result = timetables.map((timetable) => {
-      return timetable.employees.map((employee) => ({
-        name: employee.name,
-        shift: employee.shift,
-      }));
-    });
-    res.status(200).send(result);
+    const timetable = await Timetable.find({ month: month });
+    res.status(200).send(timetable);
   } catch (error) {
-    res.status(500).send("An error occurred while fetching timetable.");
+    res.status(500).send(error);
   }
 });
 module.exports = router;
